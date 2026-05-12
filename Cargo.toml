@@ -1,0 +1,54 @@
+[package]
+name = "bitlocker-control"
+authors = ["Claudio F S Rodrigues <claudiofsrodrigues@gmail.com>"]
+version = "0.6.0"
+edition = "2024"
+rust-version = "1.95.0"
+description = """
+BitLocker Control Utility
+Automates the process of mounting and unmounting BitLocker encrypted drives using dislocker.
+"""
+documentation = "https://github.com/claudiofsr/bitlocker-control"
+homepage = "https://github.com/claudiofsr/bitlocker-control"
+repository = "https://github.com/claudiofsr/bitlocker-control"
+keywords = [
+    "BitLocker",
+    "dislocker",
+    "encrypted",
+    "drives"
+]
+categories = ["command-line-utilities"]
+license = "MIT"
+readme = "README.md"
+
+[dependencies]
+# CLI parsing with styled terminal output
+clap = { version = "4.6", features = ["derive", "color", "env"] }
+# JSON configuration parsing
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+# Standardized Error handling
+thiserror = "2.0"
+# Terminal colors for the custom logger
+colored = "3.1"
+# Regex to beautifully color the JSON configuration string
+regex = "1.12"
+# Libc to easily access geteuid() for root checks
+libc = "0.2"
+# Safely find executables in the system PATH
+which = "8.0"
+
+[profile.release]
+# https://doc.rust-lang.org/cargo/reference/profiles.html
+strip = "symbols"       # Strip symbols from a binary.
+opt-level = 3           # All optimizations.
+overflow-checks = true  # Panic will occur on overflow.
+lto = true              # Enable link time optimization.
+codegen-units = 1       # Use a single codegen for size optimization.
+incremental = true      # Save information to disk, improving re-compile times.
+
+[profile.dev]
+opt-level = 1
+
+# Build and Install
+# cargo b -r && cargo install --path=.
